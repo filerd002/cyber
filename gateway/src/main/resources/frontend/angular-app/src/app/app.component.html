@@ -1,0 +1,53 @@
+<div class="columns">
+  <div class="column col-12">
+    <ngx-table [data]="data$ | async" [configuration]="configuration" [columns]="columns"
+               (event)="eventEmitted($event)">
+      <ng-template let-row>
+        <td>
+          <span class="font-small">{{ row.ip }}</span>
+        </td>
+        <td>
+          <span class="font-small">{{ row.dateStart }}</span>
+        </td>
+        <td>
+          <span class="font-small">{{ row.dateEnd }}</span>
+        </td>
+        <td>
+          <span class="font-small">{{ row.frequency }}</span>
+        </td>
+        <td [style.backgroundColor]="row.status === 'ATAK' ? '#600003' : ''">
+          <span class="font-small">{{ row.status }}</span>
+        </td>
+      </ng-template>
+
+    </ngx-table>
+  </div>
+</div>
+<div *ngIf="modal" class="modal active">
+  <div class="modal-overlay"></div>
+  <div class="modal-container" role="document">
+    <div class="modal-header">
+      <button
+        href="#modals-sizes"
+        class="btn btn-clear float-right"
+        (click)="hideModal()"
+        aria-label="Close"
+      ></button>
+      <div class="modal-title h5">Szczegóły zdarzenia</div>
+    </div>
+    <div class="modal-body">
+      <div class="content">
+<pre>
+  <ngx-table [data]="dataDetails$ " [configuration]="configurationDetails" [columns]="columnsDetails"
+             >
+    </ngx-table>
+
+
+</pre>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary btn-sm" (click)="hideModal()">Close</button>
+    </div>
+  </div>
+</div>
