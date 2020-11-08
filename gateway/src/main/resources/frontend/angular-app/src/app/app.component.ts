@@ -52,7 +52,8 @@ export class AppComponent {
     ];
 
     this.columnsDetails = [
-      { key: 'requestBody', title: 'Żądanie' },
+      { key: 'requestHeader', title: 'Żądanie' },
+      { key: 'requestBody', title: 'Body' },
       { key: 'requestType', title: 'Typ' },
     ];
 
@@ -67,7 +68,7 @@ export class AppComponent {
 
   eventEmitted($event: { event: string; value: any }): void {
     this.dataDetails$ =  [];
- $event.value.row.requests.forEach(r => this.dataDetails$.push(new RequestObject(r.requestBody, r.requestType)))
+ $event.value.row.requests.forEach(r => this.dataDetails$.push(new RequestObject(r.requestHeader, r.requestBody, r.requestType)))
 
     this.showModal();
     // console.log('$event', $event);

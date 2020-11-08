@@ -28,11 +28,13 @@ export interface EventAttack {
 }
 
 export class RequestObject {
+  requestHeader:string;
   requestBody:string;
   requestType:string;
 
 
-  constructor(requestBody: string, requestType: string) {
+  constructor(requestHeader: string,requestBody: string, requestType: string) {
+    this.requestHeader = requestHeader;
     this.requestBody = requestBody;
     this.requestType = requestType;
   }
