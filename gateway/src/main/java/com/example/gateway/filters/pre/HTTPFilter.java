@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HTTPFilter extends ZuulFilter {
 
@@ -70,7 +72,7 @@ public class HTTPFilter extends ZuulFilter {
         if ( event == null ) {
             event = new Event ();
             event.setIp ( request.getRemoteAddr () );
-            Request requestObject =  new Request (request.getRequestURI (),request.getMethod ());
+            Request requestObject = createRequestObject(request);
             requestObject.setEvent (event);
             event.getRequests ().add ( requestObject );
             event.setStatus ( "USER" );
@@ -81,7 +83,7 @@ public class HTTPFilter extends ZuulFilter {
         } else {
             event.frequencyIncrement ();
             event.setDateEnd ( localDateTime );
-            Request requestObject =  new Request (request.getRequestURI (),request.getMethod ());
+            Request requestObject = createRequestObject(request);
             requestObject.setEvent ( event );
             event.getRequests ().add ( requestObject );
             if ( event.getFrequency () > 5 ) {
@@ -111,4 +113,15 @@ public class HTTPFilter extends ZuulFilter {
         return null;
 
     }
+
+    public Request createRequestObject(HttpServletRequest request){
+        try {
+            return new Request (request.getRequestURI (),request.getMethod (), request.getReader().lines().collect( Collectors.joining(System.lineSeparator())));
+        } catch (IOException e) {
+            e.printStackTrace ();
+        }
+        return null;
+    }
+
+
 }

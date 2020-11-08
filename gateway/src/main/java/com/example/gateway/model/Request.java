@@ -17,8 +17,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class Request {
 
-    public Request( String requestBody,String requestType) {
+    public Request( String requestHeader ,String requestType,String requestBody) {
         this.requestType = requestType;
+        this.requestHeader = requestHeader;
         this.requestBody = requestBody;
     }
 
@@ -29,6 +30,8 @@ public class Request {
 
     @Column(name = "REQUEST_TYPE")
     private String requestType;
+    @Column(name = "REQUEST_HEADER")
+    private String requestHeader;
     @Column(name = "REQUEST_BODY")
     private String requestBody;
 
